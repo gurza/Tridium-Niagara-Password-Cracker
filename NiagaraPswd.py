@@ -212,5 +212,5 @@ def hex_sha1(passedString):
     return hex_dig
 
 
-main()
-
+if __name__ == '__main__':
+    main()
