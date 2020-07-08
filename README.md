@@ -28,6 +28,8 @@ optional arguments:
   -r, --resume          If the last attempt resulted in unexpected program
                         failure, use this option to resume from the last
                         credentail tried
+  -s SCHEME, --scheme SCHEME
+                        Scheme of base URL, default: http.
 ```
 
 ## Example
