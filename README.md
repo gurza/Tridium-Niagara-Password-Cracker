@@ -34,7 +34,7 @@ optional arguments:
 
 ## Example
 ```
-C:\>python NiagaraPswd.py -l phpbb-rules.txt -u admin -f default.html 127.0.0.1 -s https
+C:\>python NiagaraPswd.py -l phpbb-rules.txt -u admin -f default.html -s https 127.0.0.1
  [*] Initializing wordlist...
 
  [-] admin:YeBs2wu992 is incorrect
