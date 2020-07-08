@@ -45,7 +45,6 @@ C:\>python NiagaraPswd.py -l phpbb-rules.txt -u admin -f default.html 127.0.0.1
  [!] Keyboard Interrupt, saving last tried creds
 
 ```
-## TODO
-- [ ] Add support for HTTPS
-- [ ] Add support for threading
 
+## TODO
+- [ ] Add support for threading
