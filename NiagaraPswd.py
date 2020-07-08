@@ -148,7 +148,7 @@ def testCreds(target, username, password, webpage,
                     'Connection'    :   'close',
                     'Upgrade-Insecure-Requests': '1'
         }
-        r2 = requests.post(str(scheme)+'://'+str(target)+'/login',data=data2,headers=headers2,cookies=cookies2)
+        r2 = requests.post(str(scheme)+'://'+str(target)+'/login', data=data2, headers=headers2, cookies=cookies2)
 
         #New get request with session cookie
         cookies3 = {}
@@ -164,7 +164,7 @@ def testCreds(target, username, password, webpage,
                     'Connection'    :   'close',
                     'Upgrade-Insecure-Requests': '1'
         }
-        r3 = requests.get(str(scheme)+'://'+str(target)+'/login',headers=headers3,cookies=cookies3)
+        r3 = requests.get(str(scheme)+'://'+str(target)+'/login', headers=headers3, cookies=cookies3)
 
         #Examine reponse to determine if successful login
         if testEquality(webpage,r3) == True:
