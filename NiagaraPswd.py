@@ -120,7 +120,8 @@ def testCreds(target, username, password, webpage,
                     'Content-Length':   '15',
                     'Connection'    :   'close'
         }
-        r = requests.post(str(scheme)+'://'+str(target)+'/login', data=data, headers=headers)
+        r = requests.post(str(scheme)+'://'+str(target)+'/login',
+                          data=data, headers=headers, verify=False)
         nonce = str(r.text)
         cookieDict = {}
         cookieDict = r.cookies.get_dict()
@@ -148,7 +149,8 @@ def testCreds(target, username, password, webpage,
                     'Connection'    :   'close',
                     'Upgrade-Insecure-Requests': '1'
         }
-        r2 = requests.post(str(scheme)+'://'+str(target)+'/login', data=data2, headers=headers2, cookies=cookies2)
+        r2 = requests.post(str(scheme)+'://'+str(target)+'/login',
+                           data=data2, headers=headers2, cookies=cookies2, verify=False)
 
         #New get request with session cookie
         cookies3 = {}
@@ -164,7 +166,8 @@ def testCreds(target, username, password, webpage,
                     'Connection'    :   'close',
                     'Upgrade-Insecure-Requests': '1'
         }
-        r3 = requests.get(str(scheme)+'://'+str(target)+'/login', headers=headers3, cookies=cookies3)
+        r3 = requests.get(str(scheme)+'://'+str(target)+'/login',
+                          headers=headers3, cookies=cookies3, verify=False)
 
         #Examine reponse to determine if successful login
         if testEquality(webpage,r3) == True:
@@ -175,7 +178,8 @@ def testCreds(target, username, password, webpage,
             return True
 
     #Error handling
-    except requests.exceptions.ConnectionError:
+    except requests.exceptions.ConnectionError as ex:
+        print ' [!] {0}'.format(ex)
         time.sleep(5)
         return testCreds(target, username, password, webpage, scheme=scheme)
     except Exception as e:
